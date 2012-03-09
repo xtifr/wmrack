@@ -1,3 +1,11 @@
+1.2 -> 1.3
+- rewrote the mixer settings file parsing logic almost completely to
+  be more robust, and to fix the bug (reported by Knut Anders Hatlen)
+  where WMRack would get confused about which mixer device to use when
+  two such devices had similar names (e.g. "pcm" and "pcm2").
+- changed "<linux/soundcard.h>" to "<sys/soundcard.h>", which should
+  be more portable.
+
 1.1 -> 1.2
 - removed some ugly macros that were causing some compilers to complain
   (mostly cosmetic changes, but extensive, and critical in a couple of cases)

@@ -1,21 +1,21 @@
 /*
- * $Id: wmrack.c,v 1.3 2003/10/01 22:44:19 xtifr Exp $
+ * $Id: wmrack.c,v 1.4 2006/04/22 06:33:45 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *
- * Copyright (c) 1997 by Oliver Graf  <ograf@fga.de>   http://www.fga.de/~ograf/
- * Portions copyright (c) 2003 by Chris Waters <xtifr@users.sourceforge.net>>
+ * Copyright (c) 1997 by Oliver Graf  <ograf@fga.de>
+ * copyright 2003-2006 by Chris Waters <xtifr@users.sourceforge.net>
  *
- * ascd originally by Rob Malda <malda@cs.hope.edu>   http://www.cs.hope.edu/~malda/
+ * ascd originally by Rob Malda <malda@cs.hope.edu>
+ *   http://www.cs.hope.edu/~malda/
  *
  * This is an 'WindowMaker Look & Feel' Dock applet that can be
  * used to control the cdrom and the mixer.
  *
  * Should also work swallowed in any fvwm compatible button bar.
- *
  */
 
-#define WMR_VERSION "1.2"
+#define WMR_VERSION "1.3"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,6 +36,8 @@
 #include "cdrom.h"
 #include "mixer.h"
 #include "library.h"
+
+#define MAXRCLINE 1024
 
 /* Functions *****************************************************************/
 void usage ();
@@ -1468,8 +1470,9 @@ getTime ()
 int
 loadMixerRC ()
 {
-    char line[1024], dev[50], src[10], *d;
-    int i, l, r, n, j, err = 0;
+    char line[MAXRCLINE], dev[MAXRCLINE], src[MAXRCLINE], *d;
+    int i, j, err = 0;
+    int nfields, left, right;
 
     mixer_max = 0;
     mixer_lib = lib_open ("mixer", LIB_READ);
@@ -1480,47 +1483,58 @@ loadMixerRC ()
 	goto endload;
     }
 
-    while ((lib_gets (mixer_lib, line, 1024)) != NULL)
+    while ((lib_gets (mixer_lib, line, MAXRCLINE)) != NULL)
     {
-	for (i = 0; i < mixer_devices; i++)
-	    if (strncmp (line, mixer_names[i], strlen (mixer_names[i])) == 0)
-		break;
-	if (i < mixer_devices)
+	line[MAXRCLINE-1] = '\0';
+	dev[0] = src[0] = '\0';
+
+	nfields = sscanf (line, "%s %d:%d %s", &dev, &left, &right, &src);
+
+	if (nfields >= 3)	/* got at least the left & right info */
 	{
-	    n = sscanf (line, "%s %d:%d %s", &dev, &l, &r, &src);
-	    if (n > 1)
+	    for (i = 0; i < mixer_devices; i++)
 	    {
-		mixer_setvols (mixer, i, l, r);
-		if (strcmp (src, "src") == 0)
-		    mixer_setrecsrc (mixer, i, 1, 0);
-	    }
-	    *dev = *src = 0;
-	}
-	else if (strncmp (line, "ORDER ", 6) == 0)
-	{
-	    for (d = strchr (line, 32); d != NULL; d = strchr (d, 32))
-	    {
-		while (*d == 32)
-		    *d++;
-		if (*d == 0 || *d == '\n' || *d == '\r')
-		    break;
-		for (i = 0; i < mixer_devices; i++)
-		    if (strncmp (d, mixer_names[i], strlen (mixer_names[i]))
-			== 0)
-			break;
-		if (i < mixer_devices && mixer_isdevice (mixer, i))
+		if (strcmp (mixer_names[i], dev) == 0)
 		{
-		    mixer_order[mixer_max++] = i;
+		    mixer_setvols (mixer, i, left, right);
+		    if (strcmp (src, "src") == 0)
+		        mixer_setrecsrc (mixer, i, 1, 0);
+		    break;
+		}
+	    }
 #ifdef DEBUG
-		    fprintf (stderr, "wmrack: mixer_order %d=%s\n", mixer_max,
-			     mixer_names[i]);
+	    if (i == mixer_devices)
+		fprintf (stderr, "wmrack: unsupported device '%s'\n", dev);
+#endif
+	}
+	else   /* the sscanf failed, check for an ORDER line */
+	{
+	    d = strtok (line, " \t\n\r");
+	    if (strcmp (d, "ORDER") == 0)
+	    {
+		while ((d = strtok (NULL, " \t\n\r")) != NULL)
+		{
+		    for (i = 0; i < mixer_devices; i++)
+			if (strcmp (d, mixer_names[i]) == 0)
+			    break;
+		    if (i < mixer_devices && mixer_isdevice (mixer, i))
+		    {
+			mixer_order[mixer_max++] = i;
+#ifdef DEBUG
+			fprintf (stderr, "wmrack: mixer_order %d=%s\n",
+				 mixer_max, mixer_names[i]);
+#endif
+		    }
+#ifdef DEBUG
+		    else
+		      fprintf (stderr, "wmrack: unsupported device '%s'\n", d);
 #endif
 		}
-#ifdef DEBUG
-		else
-		    fprintf (stderr, "wmrack: unsupported device '%s'\n", d);
-#endif
 	    }
+#if DEBUG
+	    else
+		fprintf (stderr, "wmrack: invalid setting '%s'\n", line);
+#endif
 	}
     }
 
@@ -1580,10 +1594,10 @@ saveMixerRC ()
     }
     if (mixer_max > 0)
     {
-	lib_printf (mixer_lib, "ORDER ");
+	lib_printf (mixer_lib, "ORDER");
 	for (i = 0; i < mixer_max; i++)
 	{
-	    lib_printf (mixer_lib, "%s ", mixer_names[mixer_order[i]]);
+	    lib_printf (mixer_lib, " %s", mixer_names[mixer_order[i]]);
 	}
 	lib_printf (mixer_lib, "\n");
     }

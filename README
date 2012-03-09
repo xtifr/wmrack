@@ -1,4 +1,4 @@
-wmrack 1.1
+wmrack 1.3
 
 The WindowMaker Sound Control Panel by Oliver Graf
 Currently maintained by Chris Waters <xtifr@users.sourceforge.net>
@@ -74,4 +74,4 @@ the progress of work, almost any part that was stolen, has been rewritten,
 restructured, and overworked.
 
 -----
-$Id: README,v 1.2 2001/02/14 10:19:19 xtifr Exp $
+$Id: README,v 1.3 2006/04/22 06:33:45 xtifr Exp $
