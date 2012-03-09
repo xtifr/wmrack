@@ -1,9 +1,9 @@
 /*
- * $Id: xpmsize.h,v 1.1.2.1 2001/06/17 04:18:29 xtifr Exp $
+ * $Id: xpmsize.h,v 1.1.2.2 2003/10/01 20:48:00 xtifr Exp $
  *
  * defines to match xpm details -- must be edited if xpms change.
  *
- * copyright © Chris Waters 2001
+ * copyright (c) Chris Waters 2001, 2003
  */
 
 #ifndef WMRACK_XPMSIZE_H_
