@@ -1,5 +1,5 @@
 /*
- * $Id: mixer.c,v 1.1.1.1.2.1 2003/09/30 01:56:55 xtifr Exp $
+ * $Id: mixer.c,v 1.1.1.1.2.2 2003/10/01 20:47:11 xtifr Exp $
  *
  * mixer utility functions for WMRack
  *
@@ -103,8 +103,6 @@ int mixer_getinfo(MIXER *mix)
  */
 int mixer_readvol(MIXER *mix, int dev)
 {
-  int i;
-
   if (!mix || mix->fd==0)
     return -1;
 
@@ -122,7 +120,7 @@ int mixer_readvol(MIXER *mix, int dev)
 	  return 1;
     }
   else
-    mix->cur_vol[i]=-1;
+    return -1;
 
   return 0;
 }
