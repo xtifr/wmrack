@@ -224,7 +224,9 @@ No guarantees or warranties or anything are provided or implied in any way
 whatsoever. Use this program at your own risk. Permission to use this program
 for any purpose is given, as long as the copyright is kept intact.
 .SH AUTHORS
-Oliver Graf <ograf@fga.de> -- the coding
+Oliver Graf <ograf@fga.de> -- original author
+.Sp
+Chris Waters <xtifr@users.sourceforge.net> -- current maintainer
 .Sp
 Heiko Wagner <hwagner@fga.de> -- the hyped window shapes
 .SH CREDITS

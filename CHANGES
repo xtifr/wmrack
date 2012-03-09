@@ -1,3 +1,8 @@
+1.0b5 -> 1.1
+- changed the version number, even though there are few changes to the code
+  because there is a new maintainer <xtifr@users.sourceforge.net> and a
+  new web page: http://wmrack.sourceforge.net
+
 1.0b4 -> 1.0b5
 --------------
 - use of stafs in cd_doEject regargdless of libc version

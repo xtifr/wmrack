@@ -1,9 +1,8 @@
-				  wmrack 1.0
-				  ==========
+wmrack 1.1
 
-		     The WindowMaker Sound Control Panel
-				      by
-			  Oliver Graf <ograf@fga.de>
+The WindowMaker Sound Control Panel by Oliver Graf
+Currently maintained by Chris Waters <xtifr@users.sourceforge.net>
+See http://wmrack.sourceforge.net for the latest news and updates.
 
 
 DESCRIPTION:
@@ -53,14 +52,20 @@ Putting wmrack into AfterStep Wharf:
 
 BUGS & CONTACT:
 ---------------
-Please send bug reports or suggestions to ograf@fga.de. Include
-a description how the bug can be reproduced plus the vendor and
-model of your cdrom and/or soundcard. Also include a debug log
-(configure with --with-debug -- this is the default for beta
-versions) created with your bug-reproduction-recipe.
+The author, Oliver Graf, is no longer supporting or maintaining WMRack,
+therefore, all bug reports or suggestions should be sent to the current
+maintainer, Chris Waters <xtifr@users.sourceforge.net> or submitted at
+the new web page: http://wmrack.sourceforge.net 
 
-Send new styles or style questions to ograf@fga.de
+Include a description how the bug can be reproduced plus the vendor
+and model of your cdrom and/or soundcard. Also include a debug log
+(configure with --with-debug -- this is the default for beta versions)
+created with your bug-reproduction-recipe.
 
+Send new styles or style questions to xtifr@users.sourceforge.net
+
+Oliver may no longer support the program, but if you'd like to tell him
+that you appreciate his work, you can email ograf@fga.de
 
 HISTORY:
 --------
@@ -69,4 +74,4 @@ the progress of work, almost any part that was stolen, has been rewritten,
 restructured, and overworked.
 
 -----
-$Id: README,v 1.1.1.1 2001/02/12 22:25:31 xtifr Exp $
+$Id: README,v 1.2 2001/02/14 10:19:19 xtifr Exp $

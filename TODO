@@ -1,3 +1,4 @@
+This is the original TODO list written by Oliver Graf:
 
  - WindowMaker Application Menu integration (if I get the test app to
    run ;-) )
@@ -10,3 +11,11 @@
  - cd-changer (I can't test this because I don't have such a thing)
  - sound-file-player
  - spectrum analyzer
+
+Since Oliver is no longer supporting or maintaining WMRack, this list
+may or may not bear any resemblance to actual plans.  The new maintainer
+(that's me, Chris Waters) will need some time to consider his options.
+
+I also have at least one item to add:
+
+- Enhance portability (not so Linux specific).
