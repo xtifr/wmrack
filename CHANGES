@@ -2,6 +2,8 @@
 - changed the version number, even though there are few changes to the code
   because there is a new maintainer <xtifr@users.sourceforge.net> and a
   new web page: http://wmrack.sourceforge.net
+- removed non-standard field reference from signal handler setup
+- opens CDROM in more appropriate mode, for newer, pickier, libc's
 
 1.0b4 -> 1.0b5
 --------------
