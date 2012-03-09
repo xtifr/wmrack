@@ -1,11 +1,11 @@
 /*
- * $Id: mixer.h,v 1.1.1.1 2001/02/12 22:25:53 xtifr Exp $
+ * $Id: mixer.h,v 1.1.1.1.2.1 2001/06/17 04:17:32 xtifr Exp $
  *
  * Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
  */
 
-#ifndef _MYMIXER_H
-#define _MYMIXER_H
+#ifndef WMRACK_MIXER_H_
+#define WMRACK_MIXER_H_
 
 extern char *mixer_labels[];
 extern char *mixer_names[];
@@ -56,4 +56,4 @@ int mixer_changeleft(MIXER *mix, int dev, int delta);
 int mixer_changeright(MIXER *mix, int dev, int delta);
 int mixer_changebal(MIXER *mix, int dev, int delta);
 
-#endif /* _MYMIXER_H */
+#endif /* WMRACK_MIXER_H */
