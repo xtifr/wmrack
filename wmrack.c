@@ -1,5 +1,5 @@
 /*
- * $Id: wmrack.c,v 1.4 2006/04/22 06:33:45 xtifr Exp $
+ * $Id: wmrack.c,v 1.5 2006/04/25 19:48:09 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *
@@ -16,6 +16,8 @@
  */
 
 #define WMR_VERSION "1.3"
+
+#define MAXRCLINE 1024
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,8 +38,6 @@
 #include "cdrom.h"
 #include "mixer.h"
 #include "library.h"
-
-#define MAXRCLINE 1024
 
 /* Functions *****************************************************************/
 void usage ();
@@ -1485,7 +1485,6 @@ loadMixerRC ()
 
     while ((lib_gets (mixer_lib, line, MAXRCLINE)) != NULL)
     {
-	line[MAXRCLINE-1] = '\0';
 	dev[0] = src[0] = '\0';
 
 	nfields = sscanf (line, "%s %d:%d %s", &dev, &left, &right, &src);
