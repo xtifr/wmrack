@@ -5,6 +5,7 @@
   two such devices had similar names (e.g. "pcm" and "pcm2").
 - changed "<linux/soundcard.h>" to "<sys/soundcard.h>", which should
   be more portable.
+- made some minor updates to the man page.
 
 1.1 -> 1.2
 - removed some ugly macros that were causing some compilers to complain
