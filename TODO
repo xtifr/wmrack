@@ -18,4 +18,6 @@ may or may not bear any resemblance to actual plans.  The new maintainer
 
 I also have at least one item to add:
 
-- Enhance portability (not so Linux specific).
+- Enhance portability (not so Linux specific).  Note, as of v1.4, this
+  is at least _partially_ accomplished, with the addtion of
+  experimental support for Solaris and FreeBSD.

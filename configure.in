@@ -56,6 +56,7 @@ if test "x$no_x" = "xyes"; then
 else
   CFLAGS="$CFLAGS ${x_includes:+-I$x_includes}"
   LIBS="$LIBS ${x_libraries:+-L$x_libraries} -lX11"
+  CPPFLAGS="$CPPFLAGS ${x_includes:+-I$x_includes}"
 fi
 
 dnl check for Xpm

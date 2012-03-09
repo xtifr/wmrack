@@ -6,6 +6,7 @@
 CC		= @CC@
 CFLAGS		= @CFLAGS@
 LIBS		= @LIBS@
+CPPFLAGS	= @CPPFLAGS@
 INSTALL		= @INSTALL@
 INSTALL_DATA	= @INSTALL_DATA@
 RM		= rm -f
@@ -64,6 +65,6 @@ distclean: binclean
 depend: standart.style .depend
 
 .depend:
-	gcc -M $(SOURCES) >> Makefile
+	gcc $(CPPFLAGS) -M $(SOURCES) >> Makefile
 	echo "Done" > .depend
 

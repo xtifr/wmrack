@@ -1,4 +1,7 @@
 1.3 -> 1.4
+- Incorporate patch from Knut Anders Hatlen to provide support for
+  Solaris and FreeBSD systems.  Should probably still be considered
+  somewhat experimental, but Knut says it works for him.
 - modify configure.in to not assume that X11 requires extra include
   and library paths (X11R6 does; X11R7 usually does not).
 - change the main polling frequency from 5000 usec (1/200th sec) to a

@@ -1,13 +1,11 @@
 /*
- * $Id: cdrom.c,v 1.3 2003/10/01 22:44:19 xtifr Exp $
+ * $Id: cdrom.c,v 1.4 2007/11/25 23:54:46 xtifr Exp $
  *
  * cdrom utility functions for WMRack
  *
  * Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
  *
  * some hints taken from WorkBone
- *
- * this is very linux specific !!!
  */
 
 #include <stdio.h>
@@ -22,10 +20,61 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <fcntl.h>
-#include <sys/vfs.h>
 
 #ifdef linux
+#  include <sys/vfs.h>
 #  include <linux/cdrom.h>
+#elif defined(__sun) && defined(__SVR4) /* Solaris */
+#  include <sys/cdio.h>
+#  include <sys/statvfs.h>
+#  define statfs statvfs
+#elif defined(__FreeBSD__)
+#  include <sys/mount.h>
+#  include <sys/cdio.h>
+
+#  define cdrom_tocentry ioc_read_toc_single_entry
+#  define cdte_track track
+#  define cdte_format address_format
+#  define cdte_ctrl entry.control
+#  define cdte_addr entry.addr
+#  define CDROMREADTOCENTRY CDIOREADTOCENTRY
+#  define CDROM_LEADOUT 0xAA
+#  define CDROM_MSF CD_MSF_FORMAT
+#  define CDROM_DATA_TRACK 4
+
+#  define cdrom_tochdr ioc_toc_header
+#  define cdth_trk0 starting_track
+#  define cdth_trk1 ending_track
+#  define CDROMREADTOCHDR CDIOREADTOCHEADER
+
+#  define cdrom_msf ioc_play_msf
+#  define cdmsf_min0 start_m
+#  define cdmsf_sec0 start_s
+#  define cdmsf_frame0 start_f
+#  define cdmsf_min1 end_m
+#  define cdmsf_sec1 end_s
+#  define cdmsf_frame1 end_f
+
+#  define cdrom_subchnl ioc_read_subchannel
+#  define cdsc_format address_format
+#  define cdsc_audiostatus data->header.audio_status
+#  define cdsc_trk data->what.position.track_number
+#  define cdsc_absaddr data->what.position.absaddr
+#  define cdsc_reladdr data->what.position.reladdr
+#  define CDROMSUBCHNL CDIOCREADSUBCHANNEL
+#  define CDROM_AUDIO_INVALID CD_AS_AUDIO_INVALID
+#  define CDROM_AUDIO_PLAY CD_AS_PLAY_IN_PROGRESS
+#  define CDROM_AUDIO_PAUSED CD_AS_PLAY_PAUSED
+#  define CDROM_AUDIO_COMPLETED CD_AS_PLAY_COMPLETED
+#  define CDROM_AUDIO_NO_STATUS CD_AS_NO_STATUS
+
+#  define CDROMPLAYMSF CDIOCPLAYMSF
+#  define CDROMPAUSE CDIOCPAUSE
+#  define CDROMRESUME CDIOCRESUME
+#  define CDROMSTART CDIOCSTART
+#  define CDROMSTOP CDIOCSTOP
+#  define CDROMEJECT CDIOCEJECT
+
 #else
 #  include <sundev/srreg.h>
 #endif /* linux */
@@ -358,6 +407,12 @@ int cd_getStatus(CD *cd, int reopen, int force)
   int                  ret=1, newcd=0, im_stop=0;
   CDPosition           *cur;
   struct timeval       now;
+#ifdef __FreeBSD__
+  struct cd_sub_channel_info data;
+  sc.data = &data;
+  sc.data_len = sizeof(data);
+  sc.data_format = CD_CURRENT_POSITION;
+#endif
 
   if (cd==NULL)
     return -1;
