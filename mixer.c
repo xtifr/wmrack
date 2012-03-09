@@ -1,11 +1,10 @@
 /*
- * $Id: mixer.c,v 1.2 2003/10/01 22:44:19 xtifr Exp $
+ * $Id: mixer.c,v 1.3 2006/04/22 06:32:33 xtifr Exp $
  *
  * mixer utility functions for WMRack
  *
  * Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
- *
- * this is very linux specific !!!
+ * copyright 2006 by Chris Waters <xtifr@users.sourceforge.net>
  */
 
 #include <stdio.h>
@@ -17,7 +16,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
-#include <linux/soundcard.h>
+#include <sys/soundcard.h>
 
 #include "mixer.h"
 
