@@ -1,3 +1,9 @@
+1.3 -> 1.4
+- modify configure.in to not assume that X11 requires extra include
+  and library paths (X11R6 does; X11R7 usually does not).
+- change the main polling frequency from 5000 usec (1/200th sec) to a
+  more reasonable 50000 usec (1/20th sec), as suggested by Tim Connors.
+
 1.2 -> 1.3
 - rewrote the mixer settings file parsing logic almost completely to
   be more robust, and to fix the bug (reported by Knut Anders Hatlen)

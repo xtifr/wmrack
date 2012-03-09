@@ -1,5 +1,5 @@
 /*
- * $Id: wmrack.c,v 1.5 2006/04/25 19:48:09 xtifr Exp $
+ * $Id: wmrack.c,v 1.6 2007/11/25 23:24:15 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *
@@ -15,9 +15,7 @@
  * Should also work swallowed in any fvwm compatible button bar.
  */
 
-#define WMR_VERSION "1.3"
-
-#define MAXRCLINE 1024
+#define WMR_VERSION "1.4"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,6 +36,9 @@
 #include "cdrom.h"
 #include "mixer.h"
 #include "library.h"
+
+#define MAXRCLINE 1024
+#define POLLFREQ 50000L		/* microseconds between checking events */
 
 /* Functions *****************************************************************/
 void usage ();
@@ -951,7 +952,7 @@ mainLoop ()
 	}
 	/* do a redraw of the LED display */
 	redrawDisplay (force_win, force_disp);
-	usleep (5000L);
+	usleep (POLLFREQ);
 	force_win = force_disp = 0;
     }
 }
