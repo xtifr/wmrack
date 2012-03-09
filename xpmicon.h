@@ -1,5 +1,5 @@
 /*
- * $Id: xpmicon.h,v 1.1.1.1.2.1 2001/06/17 07:21:36 xtifr Exp $
+ * $Id: xpmicon.h,v 1.1.1.1.2.2 2003/09/30 00:50:01 xtifr Exp $
  *
  * part of wmrack
  *
@@ -34,9 +34,6 @@ typedef struct {
 extern XpmIcon rackXpm[];
 extern int curRack;
 extern char *ledAlphabet;
-
-#define currentXpm(w) rackXpm[curRack].##w
-#define ledXpm(x,w) rackXpm[x].##w
 
 int xpm_setDefaultAttr(Display *disp, Drawable draw, char *color, char *back);
 int xpm_loadSet(Display *disp, Drawable draw, char *filename);

@@ -1,5 +1,5 @@
 /*
- * $Id: wmrack.c,v 1.2.2.2 2003/08/06 11:18:55 xtifr Exp $
+ * $Id: wmrack.c,v 1.2.2.3 2003/09/30 00:50:01 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *
@@ -14,7 +14,7 @@
  *
  */
 
-#define WMR_VERSION "1.1"
+#define WMR_VERSION "1.2"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -357,8 +357,8 @@ createWindow (int argc, char **argv)
 		 &SizeHints.x, &SizeHints.y, &SizeHints.width,
 		 &SizeHints.height, &i);
 
-    SizeHints.width = currentXpm (attributes).width;
-    SizeHints.height = currentXpm (attributes).height;
+    SizeHints.width = rackXpm[curRack].attributes.width;
+    SizeHints.height = rackXpm[curRack].attributes.height;
     Win = XCreateSimpleWindow (Disp, Root, SizeHints.x, SizeHints.y,
 			       SizeHints.width, SizeHints.height,
 			       borderwidth, fore_pix, back_pix);
@@ -393,9 +393,9 @@ createWindow (int argc, char **argv)
     WinGC = XCreateGC (Disp, Root, gcm, &gcv);
 
     XShapeCombineMask (Disp, Win, ShapeBounding, 0, 0,
-		       currentXpm (mask), ShapeSet);
+		       rackXpm[curRack].mask, ShapeSet);
     XShapeCombineMask (Disp, Iconwin, ShapeBounding, 0, 0,
-		       currentXpm (mask), ShapeSet);
+		       rackXpm[curRack].mask, ShapeSet);
 
     WmHints.initial_state = withdraw ? WithdrawnState : NormalState;
     WmHints.icon_window = Iconwin;
@@ -981,16 +981,16 @@ redrawWindow ()
     flushExpose (Iconwin);
 
     XShapeCombineMask (Disp, Win, ShapeBounding, 0, 0,
-		       currentXpm (mask), ShapeSet);
+		       rackXpm[curRack].mask, ShapeSet);
     XShapeCombineMask (Disp, Iconwin, ShapeBounding, 0, 0,
-		       currentXpm (mask), ShapeSet);
+		       rackXpm[curRack].mask, ShapeSet);
 
-    XCopyArea (Disp, currentXpm (pixmap), Win, WinGC,
-	       0, 0, currentXpm (attributes).width,
-	       currentXpm (attributes).height, 0, 0);
-    XCopyArea (Disp, currentXpm (pixmap), Iconwin, WinGC, 0, 0,
-	       currentXpm (attributes).width, currentXpm (attributes).height,
-	       0, 0);
+    XCopyArea (Disp, rackXpm[curRack].pixmap, Win, WinGC,
+	       0, 0, rackXpm[curRack].attributes.width,
+	       rackXpm[curRack].attributes.height, 0, 0);
+    XCopyArea (Disp, rackXpm[curRack].pixmap, Iconwin, WinGC, 0, 0,
+	       rackXpm[curRack].attributes.width, 
+	       rackXpm[curRack].attributes.height, 0, 0);
 }
 
 /*
@@ -1001,13 +1001,13 @@ redrawWindow ()
 void
 paint_cd_led (int flash, int track[], int cdtime[])
 {
-    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 	       (track[0] ? 8 * track[0] : 80), 0, 8, 11, 16, 35);
-    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 	       (track[0] ? 8 * track[0] : 80), 0, 8, 11, 16, 35);
-    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 	       8 * track[1], 0, 8, 11, 24, 35);
-    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 	       8 * track[1], 0, 8, 11, 24, 35);
 
     if (flash || cd->info.current.mode != CDM_PAUSE)
@@ -1015,108 +1015,108 @@ paint_cd_led (int flash, int track[], int cdtime[])
 	if (cd->info.current.mode == CDM_PLAY || 
 	    cd->info.current.mode == CDM_PAUSE)
 	{
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       ((displaymode & 2) ? 94 : 98), 0, 4, 5, 3, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       ((displaymode & 2) ? 94 : 98), 0, 4, 5, 3, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       ((displaymode & 1) ? 94 : 98), 5, 4, 1, 3, 7);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       ((displaymode & 1) ? 94 : 98), 5, 4, 1, 3, 7);
 	}
 	else
 	{
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       98, 0, 4, 6, 3, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       98, 0, 4, 6, 3, 2);
 	}
 
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		   ((playlist != NULL) ? 94 : 98), 6, 4, 5, 3, 8);
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		   ((playlist != NULL) ? 94 : 98), 6, 4, 5, 3, 8);
 
 	if (popup_display == NULL)
 	{
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       (cdtime[0] ? 8 * cdtime[0] : 80), 0, 8, 11, 7, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       (cdtime[0] ? 8 * cdtime[0] : 80), 0, 8, 11, 7, 2);
 
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       8 * cdtime[1], 0, 8, 11, 15, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       8 * cdtime[1], 0, 8, 11, 15, 2);
 
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       88, 0, 3, 11, 23, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       88, 0, 3, 11, 23, 2);
 
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       8 * cdtime[2], 0, 8, 11, 26, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       8 * cdtime[2], 0, 8, 11, 26, 2);
 
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       8 * cdtime[3], 0, 8, 11, 34, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       8 * cdtime[3], 0, 8, 11, 34, 2);
 
 	}
 
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		   (cd->info.play.repeat_mode != CDR_NONE ? 102 : 106), 0, 4,
 		   5, 42, 2);
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		   (cd->info.play.repeat_mode != CDR_NONE ? 102 : 106), 0, 4,
 		   5, 42, 2);
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		   (cd->info.play.repeat_mode == CDR_ONE ? 102 : 106), 6, 4,
 		   5, 42, 8);
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		   (cd->info.play.repeat_mode == CDR_ONE ? 102 : 106), 6, 4,
 		   5, 42, 8);
     }
     else
     {
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		   98, 0, 4, 11, 3, 2);
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		   98, 0, 4, 11, 3, 2);
 
 	if (popup_display == NULL)
 	{
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       80, 0, 8, 11, 7, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       80, 0, 8, 11, 7, 2);
 
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       80, 0, 8, 11, 15, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       80, 0, 8, 11, 15, 2);
 
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       91, 0, 3, 11, 23, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       91, 0, 3, 11, 23, 2);
 
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       80, 0, 8, 11, 26, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       80, 0, 8, 11, 26, 2);
 
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		       80, 0, 8, 11, 34, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		       80, 0, 8, 11, 34, 2);
 	}
 
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Win, WinGC,
 		   106, 0, 4, 11, 42, 2);
-	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
+	XCopyArea (Disp, rackXpm[RACK_LED_PLAYER].pixmap, Iconwin, WinGC,
 		   106, 0, 4, 11, 42, 2);
     }
 
@@ -1140,9 +1140,9 @@ paint_cd_led (int flash, int track[], int cdtime[])
 	    for (i = 0; ledAlphabet[i]; i++)
 		if (toupper (*d) == ledAlphabet[i])
 		{
-		    XCopyArea (Disp, ledXpm (RACK_LED_ALPHA, pixmap), Win,
+		    XCopyArea (Disp, rackXpm[RACK_LED_ALPHA].pixmap, Win,
 			       WinGC, i * 8, 0, 8, 11, disp_pos[j], 2);
-		    XCopyArea (Disp, ledXpm (RACK_LED_ALPHA, pixmap), Iconwin,
+		    XCopyArea (Disp, rackXpm[RACK_LED_ALPHA].pixmap, Iconwin,
 			       WinGC, i * 8, 0, 8, 11, disp_pos[j], 2);
 		    break;
 		}
@@ -1166,9 +1166,9 @@ paint_mixer_led ()
 	if (toupper (mixer_shortnames[mixer_order[curMixer]][0]) ==
 	    ledAlphabet[i])
 	{
-	    XCopyArea (Disp, ledXpm (RACK_LED_ALPHA, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_ALPHA].pixmap, Win, WinGC,
 		       i * 8, 0, 8, 11, 16, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_ALPHA, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_ALPHA].pixmap, Iconwin, WinGC,
 		       i * 8, 0, 8, 11, 16, 2);
 	    break;
 	}
@@ -1176,9 +1176,9 @@ paint_mixer_led ()
 	if (toupper (mixer_shortnames[mixer_order[curMixer]][1]) ==
 	    ledAlphabet[i])
 	{
-	    XCopyArea (Disp, ledXpm (RACK_LED_ALPHA, pixmap), Win, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_ALPHA].pixmap, Win, WinGC,
 		       i * 8, 0, 8, 11, 24, 2);
-	    XCopyArea (Disp, ledXpm (RACK_LED_ALPHA, pixmap), Iconwin, WinGC,
+	    XCopyArea (Disp, rackXpm[RACK_LED_ALPHA].pixmap, Iconwin, WinGC,
 		       i * 8, 0, 8, 11, 24, 2);
 	    break;
 	}
@@ -1193,9 +1193,9 @@ paint_mixer_led ()
     }
     else
 	i = 26;
-    XCopyArea (Disp, ledXpm (RACK_LED_MIXER, pixmap), Win, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_MIXER].pixmap, Win, WinGC,
 	       44, i, 14, 13, 17, 34);
-    XCopyArea (Disp, ledXpm (RACK_LED_MIXER, pixmap), Iconwin, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_MIXER].pixmap, Iconwin, WinGC,
 	       44, i, 14, 13, 17, 34);
 
     /* the volume displays */
@@ -1206,9 +1206,9 @@ paint_mixer_led ()
     if (i > 10)
 	i = 10;
     i *= 4;
-    XCopyArea (Disp, ledXpm (RACK_LED_MIXER, pixmap), Win, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_MIXER].pixmap, Win, WinGC,
 	       i, 0, 3, 39, 4, 4);
-    XCopyArea (Disp, ledXpm (RACK_LED_MIXER, pixmap), Iconwin, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_MIXER].pixmap, Iconwin, WinGC,
 	       i, 0, 3, 39, 4, 4);
     /* right */
     i = (mixer_volright (mixer, mixer_order[curMixer]) / 10);
@@ -1217,9 +1217,9 @@ paint_mixer_led ()
     if (i > 10)
 	i = 10;
     i *= 4;
-    XCopyArea (Disp, ledXpm (RACK_LED_MIXER, pixmap), Win, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_MIXER].pixmap, Win, WinGC,
 	       i, 0, 3, 39, 41, 4);
-    XCopyArea (Disp, ledXpm (RACK_LED_MIXER, pixmap), Iconwin, WinGC,
+    XCopyArea (Disp, rackXpm[RACK_LED_MIXER].pixmap, Iconwin, WinGC,
 	       i, 0, 3, 39, 41, 4);
 
 }
@@ -1532,7 +1532,8 @@ loadMixerRC ()
 	fprintf (stderr, "wmrack: setting default mixer_order\n");
 #endif
 	for (j = i = 0; i < mixer_devices; i++)
-	    if (mixer_isdevice (mixer, i))
+	    /* next line is a bit of a hack... */
+	    if (mixer_isdevice (mixer, i) && mixer_shortnames[i])
 		mixer_order[j++] = i;
 	mixer_max = j;
     }
