@@ -7,5 +7,4 @@ config.cache
 config.status
 config.h
 confdefs.*
-configure
 .depend
