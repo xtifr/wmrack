@@ -1,5 +1,5 @@
 /*
- * $Id: wmrack.c,v 1.2.2.5 2003/10/01 20:49:37 xtifr Exp $
+ * $Id: wmrack.c,v 1.3 2003/10/01 22:44:19 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *

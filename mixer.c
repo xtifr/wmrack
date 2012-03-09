@@ -1,5 +1,5 @@
 /*
- * $Id: mixer.c,v 1.1.1.1.2.2 2003/10/01 20:47:11 xtifr Exp $
+ * $Id: mixer.c,v 1.2 2003/10/01 22:44:19 xtifr Exp $
  *
  * mixer utility functions for WMRack
  *

@@ -1,5 +1,5 @@
 /*
- * $Id: cdrom.c,v 1.2.2.1 2003/08/06 11:18:55 xtifr Exp $
+ * $Id: cdrom.c,v 1.3 2003/10/01 22:44:19 xtifr Exp $
  *
  * cdrom utility functions for WMRack
  *

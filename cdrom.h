@@ -1,5 +1,5 @@
 /*
- * $Id: cdrom.h,v 1.1.1.1.2.3 2003/09/30 00:50:18 xtifr Exp $
+ * $Id: cdrom.h,v 1.2 2003/10/01 22:44:19 xtifr Exp $
  *
  * Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
  */

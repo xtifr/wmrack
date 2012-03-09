@@ -1,5 +1,5 @@
 /*
- * $Id: library.h,v 1.1.1.1.2.1 2001/06/17 07:21:36 xtifr Exp $
+ * $Id: library.h,v 1.2 2003/10/01 22:44:19 xtifr Exp $
  *
  * part of wmrack
  *
