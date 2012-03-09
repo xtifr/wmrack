@@ -1,3 +1,10 @@
+1.1 -> 1.2
+- removed some ugly macros that were causing some compilers to complain
+  (mostly cosmetic changes, but extensive, and critical in a couple of cases)
+- added some new mixer device short names to match the new names added
+  by the kernel developers; no longer segfaults w/ linux 2.4
+- various minor code cleanups.
+
 1.0b5 -> 1.1
 - changed the version number, even though there are few changes to the code
   because there is a new maintainer <xtifr@users.sourceforge.net> and a
