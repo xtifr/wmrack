@@ -13,10 +13,8 @@ RM		= rm -f
 SOURCES		= xpmicon.c library.c cdrom.c mixer.c wmrack.c \
 		  cdctrl.c mixctrl.c
 OBJECTS		= xpmicon.o library.o cdrom.o mixer.o wmrack.o
-CD_CTRL_OBJS	= cdrom.o cdctrl.o
-MIXER_CTRL_OBJS	= mixer.o mixctrl.o
 
-TARGETS		= wmrack @CTRL@
+TARGETS		= wmrack
 
 MANPAGES	= wmrack.1
 
@@ -35,12 +33,6 @@ standart.style:
 
 wmrack: $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@ $(LIBS)
-
-cdctrl: $(CD_CTRL_OBJS)
-	$(CC) $(CD_CTRL_OBJS) -o $@ $(LIBS)
-
-mixctrl: $(MIXER_CTRL_OBJS)
-	$(CC) $(MIXER_CTRL_OBJS) -o $@ $(LIBS)
 
 install: $(TARGETS) install-bin install-man install-lib
 
@@ -63,7 +55,7 @@ clean:
 	$(RM) *.o core
 
 binclean: clean
-	$(RM) wmrack cdctrl mixctrl
+	$(RM) wmrack
 
 distclean: binclean
 	$(RM) Makefile config.h .depend config.status config.log config.cache \
