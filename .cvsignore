@@ -1,0 +1,11 @@
+wmrack
+cdctrl
+mixctrl
+Makefile
+config.log
+config.cache
+config.status
+config.h
+confdefs.*
+configure
+.depend

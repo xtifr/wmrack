@@ -1,0 +1,72 @@
+				  wmrack 1.0
+				  ==========
+
+		     The WindowMaker Sound Control Panel
+				      by
+			  Oliver Graf <ograf@fga.de>
+
+
+DESCRIPTION:
+------------
+WMRack is a Dock/Wharf applet which gives you complete control over
+your CDROM, the Mixer and hopefully in the future to other sound related
+stuff (feel free to send suggestions).
+
+It's main advantage is the high configurability, which will let you specify
+different looks for the window at startup.
+
+CD-Functions:
+ * Display Track and Time (remaining/to-go, track/total)
+ * Play, Pause, Stop, Eject, Load, Track +/-, Fast Fore-/Back-ward
+ * Display of total tracks and length when a new CD is loaded
+ * random play, skip data tracks, play lists
+
+Mixer Functions:
+ * startup options for initial volume
+ * control all your mixer devices
+ * control balance
+ * change record sources
+
+INSTALLATION:
+-------------
+First you need to configure the whole package with:
+
+./configure (see './configure --help' for options)
+
+Now you can make a link in XPM to the style you want compiled into
+WMRack using 'ln -s A.style standart.style' or do nothing for the
+default.
+
+After this a 'make' will compile WMRack and a 'make install' will
+install it.
+
+
+USAGE:
+------
+Look into the manpage for supported options and functions.
+
+Easily swallowed by dock (use the --withdrawn option).
+
+Putting wmrack into AfterStep Wharf:
+*Wharf WMRack nil Swallow "wmrack" wmrack &
+
+
+BUGS & CONTACT:
+---------------
+Please send bug reports or suggestions to ograf@fga.de. Include
+a description how the bug can be reproduced plus the vendor and
+model of your cdrom and/or soundcard. Also include a debug log
+(configure with --with-debug -- this is the default for beta
+versions) created with your bug-reproduction-recipe.
+
+Send new styles or style questions to ograf@fga.de
+
+
+HISTORY:
+--------
+Basically this thing borrowed much from WorkBone, ascd and asmixer. But in
+the progress of work, almost any part that was stolen, has been rewritten,
+restructured, and overworked.
+
+-----
+$Id: README,v 1.1.1.1 2001/02/12 22:25:31 xtifr Exp $

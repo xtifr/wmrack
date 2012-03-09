@@ -1,0 +1,18 @@
+/* XPM */
+static char * alphaled[] = {
+"296 11 4 1",
+" 	c #000063180000 s led_color_low",
+".	c #000000000000 s led_color_back",
+"X	c #0000FFFF0000 s led_color_high",
+"o	c #00009CE60000 s led_color_med",
+" .XoX. .XoXoX. . .XoX. .XoXoX. .XoXoXoX.XoXoXoX. .XoX. .X. . .X. oXoXo .XoXoXoX.X. . .X.X. . . .X. . .X.X. . .X. .XoX. .XoXoX. . .XoX. .XoXoX. . .XoX. .XoXoXoX.X. . .X.X. . .X.X. . .X.X. . .X.X. . .X.XoXoXoX. .XoX. . . . .X. .XoX. . .XoX. .X. . . .XoXoXoX. . .XoX.XoXoXoX. .XoX. . .XoX. . . . . .",
+".o...o..o....o...o...o..o....o..o.......o........o...o..o.....o....X..........o.o....o..o.......oX...Xo.oo....o..o...o..o....o...o...o..o....o...o...o.....X....o.....o.o.....o.o.....o.o.....o.o.....o.......o..o...o.......oo..o...o...o...o..o.......o..........o..........o..o...o...o...o.... .....",
+"X. . .X.X. . .X.X. . .X.X. . .X.X. . . .X. . . .X. . .X.X. . .X. . o . . . . .X.X. .X. .X. . . .X.X.X.X.X.X. .X.X. . .X.X. . .X.X. . .X.X. . .X.X. . .X. . o . .X. . .X.X. . .X.X. . .X.X. . .X.X. . .X. . . .X.X. .X.X. . .X.X.X. . .X.X. . .X.X. . . .X. . . . .X. . . . . .X.X. . .X.X. . .X. . . . .",
+"o.....o.o.....o.o.......o.....o.o.......o.......o.......o.....o....X..........o.o..o....o.......o..X..o.o.o...o.o.....o.o.....o.o.....o.o.....o.o..........X....o.....o.o.....o.o.....o..o...o...o...o.......o..o...o.o....o..o.......o.......o.o.......o........o...........o...o...o..o.....o.........",
+"X. . .X.X. . .X.X. . . .X. . .X.X. . . .X. . . .X. . . .X. . .X. . o . . . . .X.X.X. . .X. . . .X. . .X.X.X. .X.X. . .X.X. . .X.X. . .X.X. . .X. X . . . . o . .X. . .X.X. . .X.X. X .X. .X.X. . .X.X. . . .X. .X. .X.X. .X. .X. . . .X. . . .X.X. .X. .XoXoXo .X.XoX. . . .X. . .XoX. .X. . .X. . . . .",
+"oXoXoXo.oXoXoX..o.......o.....o.oXoXoX..oXoXoX..o..XoXo.oXoXoXo....X..........o.oo......o.......o.....o.o..o..o.o.....o.o....o..o.....o.o....o....XoX......X....o.....o..o...o..o..o..o....o.......o.......o....o..o..o.......o......o....oXoX..o...o.........o.oo...o......o....o...o...o...oo.........",
+"X. . .X.X. . .X.X. . . .X. . .X.X. . . .X. . . .X. . .X.X. . .X. . o . . . . .X.X.X. . .X. . . .X. . .X.X. .X.X.X. . .X.XoXoX. .X.X. .X.XoXoX. . . . X . . o . .X. . .X. X . X .X. X .X. .X.X. . . X . . .X. . .X.X. .X. . . .X. . .X. . . . .X.XoXoXoX. . . .X.X. . .X. . .X. .X. . .X. .XoX.X. . . . .",
+"o.....o.o.....o.o.......o.....o.o.......o.......o.....o.o.....o....X..........o.o..o....o.......o.....o.o...o.o.o.....o.o.......o..o..o.o..o..........o....X....o.....o...o.o....o.o.o...o...o.....o.....o......o.o...o.......o....o..........o.....o.........o.o.....o....o....o.....o......o..........",
+"X. . .X.X. . .X.X. . .X.X. . .X.X. . . .X. . . .X. . .X.X. . .X. . o . .X. . .X.X. .X. .X. . . .X. . .X.X. .X.X.X. . .X.X. . . .X. .X.X.X. .X. .X. . .X. . o . .X. . .X. .X.X. . X X X .X. . .X. . X . .X. . . .X.X. .X. . . .X. .X. . .X. . .X. . .X. .X. . .X.X. . .X. .X. . .X. . .X. . .X. . . . . .",
+"o.....o.o....o...o...o..o....o..o.......o........o...o..o.....o....X.....o...o..o....o..o.......o.....o.o....oo..o...o..o........o...o..o....o...o...o.....X.....o...o.....o......o.o...o.....o....o....o........o...o........o..o.......o...o......o....o...o...o...o....o......o...o.....o............",
+"X. . .X.XoXoX. . .XoX. .XoXoX. .XoXoXoX.X. . . . .XoX. .X. . .X. oXoXo . .XoX. .X. . .X.XoXoXoX.X. . .X.X. . .X. .XoX. .X. . . . .XoX.X.X. . .X. .XoX. . . o . . .XoX. . . X . . .X.X. .X. . .X. . X . .XoXoXoX. .XoX. . . . .X.XoXoXoX. .XoX. . . .X. . .XoX. . .XoX. . .X. . . .XoX. .XoX. . . . . . ."};

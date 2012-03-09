@@ -1,0 +1,12 @@
+
+ - WindowMaker Application Menu integration (if I get the test app to
+   run ;-) )
+ - integration of X-Resources for configuration purposes (that will take some
+   time -- I will first need to buy some X-Programming-Manual ;-) )
+ - better configurability of the display (via XPM-extensions -- until now you
+   can only change the look of the thing, but the positions and sizes must
+   stay fixed).
+ - cddb lookups + scroll text display
+ - cd-changer (I can't test this because I don't have such a thing)
+ - sound-file-player
+ - spectrum analyzer

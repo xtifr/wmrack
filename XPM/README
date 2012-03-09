@@ -1,0 +1,27 @@
+*.style files can be loaded using the -style option of wmrack
+
+You can define your standart style by linking standart.style to
+the style of your choice before compilation using:
+ln -sf <yourchoice>.style standart.style
+
+cd_mask.xpm    is the standart mask of on of the window faces.
+mixer_mask.xpm is the standart mask of the mixer window face.
+led.xpm        are the digits and signs for the cdplayer.
+mixled.xpm     these are the scales and source buttons of the mixer.
+alphaled.xpm   this is a Dot-LED style characterset (uppercase + digits).
+
+you need for pixmaps (the names must be the name of the XPM):
+  cdnodisc  (do not include any track +/- buttons)
+  cdpaused
+  cdplaying
+  cdstopped
+  mixer
+  mixled    (this must be changed because of the recsrc button)
+plus (until now not really needed, the compiletime default will do):
+  led
+  alphaled
+cat all eight into one file using for example:
+  'cat no.xpm pl.xpm pau.xpm sto.xpm mix.xpm led.xpm mixled.xpm alpha.xpm >a.style'
+
+If you want to submit new styles to the WMRack distribution, send
+them to Oliver Graf <ograf@fga.de>.

@@ -1,0 +1,18 @@
+/* XPM */
+static char * cdled[] = {
+"110 11 4 1",
+" 	c #000000000000 s led_color_back",
+".	c #0000FFFF0000 s led_color_high",
+"X	c #00009E790000 s led_color_med",
+"o	c #000061850000 s led_color_low",
+" .....   X X X   .....   .....   X o X   .....   .....   .....   .....   .....   X X X        ... XoX ..  Xo  ",
+". oXo . o     . X oXo . X oXo . .     . . oXo X . oXo X o XoX . . oXo . . oXo . o     X        .   X  . . o o ",
+".X   X.      X.      X.      X. .X   X. .X      .X           o. .X   X. .X   X.         X. oX  .   o  ..  Xo  ",
+".X   X.      X.      X.      X. .X   X. .X      .X           o. .X   X. .X   X.         .X Xo  .   X  . . o o ",
+".     . X     . X XoX . o XoX . . oXo . . oXo X . oXo X o     . . oXo . . oXo . X     o               . . X X ",
+" X o X   o X o   .....   .....   .....   .....   .....   X X X   .....   .....   o X X        ... oXo         ",
+".     . X     . . oXo X X oXo . X oXo . o XoX . . oXo . X     . . oXo . o XoX . X     o                 .   X ",
+".X   X.      X. .X           X.      X.      o. .X   X.      o. .X   X.      o.         X. oX . . X X  ..  Xo ",
+".X   X.      X. .X           X.      X.      o. .X   X.      o. .X   X.      o.         .X Xo ... ooo . . o X ",
+". oXo . X     . . oXo X o XoX . X     . o XoX . . oXo . X     . . oXo . o XoX . X     X       . . X X   .   o ",
+" .....   o X o   .....   .....   o X o   .....   .....   X X X   .....   .....   X X o        . . o o   .   X "};

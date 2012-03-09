@@ -1,0 +1,21 @@
+
+INSTALL		= @INSTALL@
+INSTALL_DATA	= @INSTALL_DATA@
+LN		= @LN_S@
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+BINDIR = @bindir@
+MANDIR = @mandir@
+LIBDIR = @libdir@/WMRack
+
+standart.style: grey.style
+	$(LN) grey.style standart.style
+
+install:
+	mkdir -p $(LIBDIR)
+	for style in *.style; do \
+	  if test "$${style}" != "standart.style"; then \
+	     $(INSTALL_DATA) $${style} $(LIBDIR); \
+	  fi \
+	done

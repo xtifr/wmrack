@@ -1,0 +1,49 @@
+1.0b4 -> 1.0b5
+--------------
+- use of stafs in cd_doEject regargdless of libc version
+
+1.0b3 -> 1.0b4
+--------------
+- fixed the ustat problem with redhat 5
+- fixed the -X11 stuff in configure.in
+- changed a ifdef 0 in wmrack.c
+- fixed a segfault in lib_open/loadMixerRC
+
+1.0b2 -> 1.0b3
+--------------
+- tested repeat behaviour of play-lists -> all ok (at least for me)
+- fixed segfaults when no mixer file is present
+- my new Toshiba cdrom returnes AUDIO_INVALID on new disc
+  added code to handle this behaviour to cdrom.c
+- some stop changes (by dledford@dialnet.net)
+- mainLoop uwait upgraded to 5000ms to reduce polling (this is not the
+  right solution -- I want a sort of select....)
+- cd_getStatus will now only update after at least 5000ms passed
+  to prevent constant cdrom polling
+
+1.0b1 -> 1.0b2
+--------------
+- play sequence corrected after some tests
+- corrected GNUstep path autodetection and library creation
+- enabled GNUstep/Library path searchs for mixer and styles
+- fixed some play-opt leaks
+- added automatic play optimization (longest-sequence play)
+- another starttrack typo
+- missing led color symbols added
+- fixed starttrack set to curtrack when STOP is pressed
+- fixed missing mode & cur_track in cd_reopen
+- fixed track-display bug at end of disc
+- cd_doPlay only plays ONE track getStatus switches to next
+- changed CDPlayInfo start/end handling to just current
+
+0.9 -> 1.0b1
+------------
+- added a DATA notice for data-only discs
+- finished playlist stuff (automatic play of list, programing)
+- added exit function (Ctrl-Button-3 click on the mode changer)
+- added randomize to playlist
+- added playlist support
+- changed load/eject behaviour: button-3 click will always open the tray
+- added mixer library file
+- added mixer support (linux)
+- changed configuration from Imake to autoconf

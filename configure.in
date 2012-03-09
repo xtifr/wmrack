@@ -1,0 +1,118 @@
+dnl
+dnl WMRack autoconf stuff
+dnl
+dnl Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
+dnl
+
+AC_INIT(wmrack.c)
+AC_CONFIG_HEADER(config.h)
+
+dnl package switches
+dnl
+dnl AC_ARG_WITH(cdplayer,[  --with-cdplayer	Include cdplayer support.])
+dnl AC_ARG_WITH(mixer,   [  --with-mixer	Include mixer support.])
+AC_ARG_WITH(ctrl, \
+[  --without-ctrl          Compile without command line tools.],[],[with_ctrl="yes"])
+AC_ARG_WITH(debug, \
+[  --without-debug         Compile without extra debug messages.],[],[with_debug="yes"])
+AC_ARG_WITH(gnustep, \
+[  --without-gnustep       Don't use GNUstep style library paths.])
+
+dnl check for standart compile && install stuff
+dnl
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_LN_S
+
+AC_SUBST(INSTALL)
+
+dnl check for needed headers
+dnl
+AC_HEADER_STDC
+AC_CHECK_HEADER(unistd.h)
+
+dnl Check for Linux CDROM support
+dnl
+dnl if test "x${enable_cdplayer}" = "xno"; then
+dnl   AC_MSG_WARN([cdplayer feature disabled])
+dnl else
+dnl   AC_MSG_CHECKING([for cdplayer support])
+dnl   AC_EGREP_HEADER([struct cdrom_msf],linux/cdrom.h,[echo yes
+dnl AC_DEFINE(WITH_CDPLAYER,linux)],[echo no])
+dnl fi
+
+dnl Check for Linux MIXER support
+dnl
+dnl if test "x${enable_mixer}" = "xno"; then
+dnl   AC_MSG_WARN([mixer feature disabled])
+dnl else
+dnl   AC_MSG_CHECKING([for mixer support])
+dnl   AC_EGREP_HEADER([typedef struct mixer_info],linux/soundcard.h,[echo yes
+dnl AC_DEFINE(WITH_MIXER,linux)],[echo no])
+dnl fi
+
+dnl check for X11
+dnl
+AC_PATH_X
+if test "x$no_x" = "xyes"; then
+  AC_MSG_ERROR([WMRack needs X Windows!!!])
+else
+  CFLAGS="$CFLAGS -I${x_includes}"
+  LIBS="$LIBS -L${x_libraries} -lX11"
+fi
+
+dnl check for Xpm
+dnl
+AC_CHECK_LIB(Xpm,XpmCreatePixmapFromBuffer,\
+	[LIBS="$LIBS -lXpm"],\
+	AC_MSG_ERROR([WMRack needs XPM support!!!]),\
+	-lX11)
+
+dnl check for Shape extensions
+dnl
+AC_CHECK_HEADER(X11/extensions/shape.h,[],\
+	[AC_MSG_ERROR([WMRack needs X11 Shape extensions!!!])])
+AC_CHECK_LIB(Xext,XShapeCombineMask,\
+	[LIBS="$LIBS -lXext"],\
+	AC_MSG_ERROR([WMRack needs the X11 extension library!!!]),\
+	-lX11)
+
+dnl check for extra package options
+dnl
+echo
+
+dnl command line tools
+if test "x${with_ctrl}" = "xyes"; then
+  echo "compiling the extra command line tools"
+  CTRL="cdctrl mixctrl"
+else
+  CTRL=""
+fi
+AC_SUBST(CTRL)
+
+dnl DEBUG
+if test "x${with_debug}" = "xyes"; then
+  echo "adding extra DEBUG output"
+  CFLAGS="-ggdb -DDEBUG $CFLAGS"
+fi
+
+dnl GNUstep paths
+if test "x${with_gnustep}" = "xno"; then
+  echo "GNUstep path standarts disabled"
+else
+  echo -n "Trying to detect GNUstep paths..."
+  if test -d "$prefix/GNUstep" -o -d "$ac_default_prefix/GNUstep"; then
+    libdir=[\${prefix}/GNUstep/Library]
+    echo " $libdir"
+    AC_DEFINE(HAVE_GNUSTEP)
+  else
+    echo " NOT FOUND -- DISABLED"
+  fi
+fi
+
+echo
+
+dnl All done
+dnl create output
+dnl
+AC_OUTPUT(Makefile XPM/Makefile)

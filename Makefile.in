@@ -1,0 +1,77 @@
+
+# WMRack Makefile.in for autoconf
+#
+# Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
+
+CC		= @CC@
+CFLAGS		= @CFLAGS@
+LIBS		= @LIBS@
+INSTALL		= @INSTALL@
+INSTALL_DATA	= @INSTALL_DATA@
+RM		= rm -f
+
+SOURCES		= xpmicon.c library.c cdrom.c mixer.c wmrack.c \
+		  cdctrl.c mixctrl.c
+OBJECTS		= xpmicon.o library.o cdrom.o mixer.o wmrack.o
+CD_CTRL_OBJS	= cdrom.o cdctrl.o
+MIXER_CTRL_OBJS	= mixer.o mixctrl.o
+
+TARGETS		= wmrack @CTRL@
+
+MANPAGES	= wmrack.man
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+BINDIR = @bindir@
+MANDIR = @mandir@
+LIBDIR = @libdir@/WMRack
+
+MAN1DIR = $(MANDIR)/man1
+
+all: depend standart.style $(TARGETS)
+
+standart.style:
+	(cd XPM; make standart.style)
+
+wmrack: $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@ $(LIBS)
+
+cdctrl: $(CD_CTRL_OBJS)
+	$(CC) $(CD_CTRL_OBJS) -o $@ $(LIBS)
+
+mixctrl: $(MIXER_CTRL_OBJS)
+	$(CC) $(MIXER_CTRL_OBJS) -o $@ $(LIBS)
+
+install: $(TARGETS) install-bin install-man install-lib
+
+install-bin:
+	mkdir -p $(BINDIR)
+	for prog in $(TARGETS); do \
+		$(INSTALL) $${prog} $(BINDIR) ; \
+	done
+
+install-man:
+	mkdir -p $(MAN1DIR)
+	for man in $(MANPAGES); do \
+		$(INSTALL_DATA) $${man} $(MAN1DIR)/`basename $${man} .man`.1x ; \
+	done
+
+install-lib:
+	(cd XPM; make install)
+
+clean:
+	$(RM) *.o core
+
+binclean: clean
+	$(RM) wmrack cdctrl mixctrl
+
+distclean: binclean
+	$(RM) Makefile XPM/Makefile config.h .depend \
+		config.status config.log config.cache XPM/standart.style
+
+depend: standart.style .depend
+
+.depend:
+	gcc -M $(SOURCES) >> Makefile
+	echo "Done" > .depend
+
