@@ -1,5 +1,5 @@
 /*
- * $Id: xpmicon.h,v 1.1.1.1 2001/02/12 22:26:11 xtifr Exp $
+ * $Id: xpmicon.h,v 1.1.1.1.2.1 2001/06/17 07:21:36 xtifr Exp $
  *
  * part of wmrack
  *
@@ -7,8 +7,8 @@
  *
  * Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
  */
-#ifndef _XPMICON_H
-#define _XPMICON_H
+#ifndef WMRACK_XPMICON_H_
+#define WMRACK_XPMICON_H_
 
 /* Xpm struct */
 typedef struct {
@@ -43,4 +43,4 @@ int xpm_loadSet(Display *disp, Drawable draw, char *filename);
 int xpm_setDefaultSet(Display *disp, Drawable draw, int num);
 void xpm_freeSet(Display *disp);
 
-#endif
+#endif /* WMRACK_XPMICON_H_ */

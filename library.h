@@ -1,5 +1,5 @@
 /*
- * $Id: library.h,v 1.1.1.1 2001/02/12 22:25:47 xtifr Exp $
+ * $Id: library.h,v 1.1.1.1.2.1 2001/06/17 07:21:36 xtifr Exp $
  *
  * part of wmrack
  *
@@ -7,8 +7,8 @@
  *
  * Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
  */
-#ifndef _LIBRARY_H
-#define _LIBRARY_H
+#ifndef WMRACK_LIBRARY_H_
+#define WMRACK_LIBRARY_H_
 
 #define LIB_CLOSED 0
 #define LIB_READ   1
@@ -30,4 +30,4 @@ int lib_reopen(LIBRARY *lib, int mode);
 char *lib_gets(LIBRARY *lib, char *line, int len);
 int lib_printf(LIBRARY *lib, char *format, ...);
 
-#endif
+#endif /* WMRACK_LIBRARY_H_ */
