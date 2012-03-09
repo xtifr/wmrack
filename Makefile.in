@@ -10,8 +10,8 @@ INSTALL		= @INSTALL@
 INSTALL_DATA	= @INSTALL_DATA@
 RM		= rm -f
 
-SOURCES		= xpmicon.c library.c cdrom.c mixer.c wmrack.c \
-		  cdctrl.c mixctrl.c
+SOURCES		= xpmicon.c library.c cdrom.c mixer.c wmrack.c
+
 OBJECTS		= xpmicon.o library.o cdrom.o mixer.o wmrack.o
 
 TARGETS		= wmrack
