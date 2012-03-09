@@ -1,5 +1,5 @@
 /*
- * $Id: cdrom.c,v 1.1.1.1 2001/02/12 22:25:42 xtifr Exp $
+ * $Id: cdrom.c,v 1.2 2001/02/14 10:23:35 xtifr Exp $
  *
  * cdrom utility functions for WMRack
  *
@@ -283,7 +283,7 @@ int cd_reopen(CD *cd)
   if (cd==NULL)
     return 1;
 
-  if ((cd->fd=open(cd->device,0))<0)
+  if ((cd->fd=open(cd->device,O_RDONLY|O_NONBLOCK))<0)
     {
       perror("cd_reopen[open]");
       return 1;
