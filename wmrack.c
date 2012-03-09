@@ -1,5 +1,5 @@
 /*
- * $Id: wmrack.c,v 1.1.1.1 2001/02/12 22:26:04 xtifr Exp $
+ * $Id: wmrack.c,v 1.2 2001/02/14 10:27:48 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *
@@ -13,6 +13,8 @@
  * Should also work swallowed in any fvwm compatible button bar.
  *
  */
+
+#define WMR_VERSION "1.1"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -130,7 +132,7 @@ int main(int argc,char *argv[])
  */
 void usage()
 {
-  fprintf(stderr,"wmrack - Version 1.0b5\n");
+  fprintf(stderr,"wmrack - Version " WMR_VERSION "\n");
   fprintf(stderr,"usage: wmrack [OPTIONS] \n");
   fprintf(stderr,"\n");
   fprintf(stderr,"OPTION                  DEFAULT        DESCRIPTION\n");
@@ -252,14 +254,14 @@ void parseCmdLine(int argc, char *argv[])
  * initHandler()
  *
  * inits the signal handlers
+ * note: this function is not currently recursive (shouldn't be an issue)
  */
 void initHandler()
 {
-  struct sigaction sa;
+  static struct sigaction sa;
   sa.sa_handler=shutDown;
   sigfillset(&sa.sa_mask);
   sa.sa_flags=0;
-  sa.sa_restorer=NULL;
   sigaction(SIGTERM,&sa,NULL);
   sigaction(SIGINT,&sa,NULL);
   sigaction(SIGHUP,&sa,NULL);
