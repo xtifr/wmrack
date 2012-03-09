@@ -1,9 +1,10 @@
 /*
- * $Id: wmrack.c,v 1.2.2.4 2003/09/30 01:56:55 xtifr Exp $
+ * $Id: wmrack.c,v 1.2.2.5 2003/10/01 20:49:37 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *
  * Copyright (c) 1997 by Oliver Graf  <ograf@fga.de>   http://www.fga.de/~ograf/
+ * Portions copyright (c) 2003 by Chris Waters <xtifr@users.sourceforge.net>>
  *
  * ascd originally by Rob Malda <malda@cs.hope.edu>   http://www.cs.hope.edu/~malda/
  *
