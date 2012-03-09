@@ -18,7 +18,7 @@ MIXER_CTRL_OBJS	= mixer.o mixctrl.o
 
 TARGETS		= wmrack @CTRL@
 
-MANPAGES	= wmrack.man
+MANPAGES	= wmrack.1
 
 prefix = @prefix@
 exec_prefix = @exec_prefix@
@@ -53,7 +53,7 @@ install-bin:
 install-man:
 	mkdir -p $(MAN1DIR)
 	for man in $(MANPAGES); do \
-		$(INSTALL_DATA) $${man} $(MAN1DIR)/`basename $${man} .man`.1x ; \
+		$(INSTALL_DATA) $${man} $(MAN1DIR) ; \
 	done
 
 install-lib:
@@ -66,8 +66,8 @@ binclean: clean
 	$(RM) wmrack cdctrl mixctrl
 
 distclean: binclean
-	$(RM) Makefile XPM/Makefile config.h .depend \
-		config.status config.log config.cache XPM/standart.style
+	$(RM) Makefile config.h .depend config.status config.log config.cache \
+		XPM/Makefile XPM/standart.style
 
 depend: standart.style .depend
 

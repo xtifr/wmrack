@@ -1,19 +1,37 @@
+.\" WMrack - combined CD player and Mixer applet
+.\" copyright (c) 2001, Oliver Graf and Chris Waters <xtifr@debian.org>
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\" 
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\" 
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program; if not, write to the Free Software
+.\" Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+.\"
 .ds = \-\^\-
 .de Sp
 .if t .sp .3
 .if n .sp
 ..
-.TH wmrack 1.0 "1 June 1997" wmrack
+.TH WMrack 1 "1 June 1997" wmrack
 .UC
 .SH NAME
-\fBwmrack\fP \- the WindowMaker Sound Control
+\fBwmrack\fP \- CD Player and Mixer dock applet
 .SH SYNOPSIS
 .B wmrack
 [options]
 .SH DESCRIPTION
-The \fBwmrack\fP is CD player and Audio Mixer written to be
-docked to WindowMaker's dock. It can also be used swallowed into
-the button bars of most fvwm compatible window managers.
+The \fBwmrack\fP is a combined CD player and Audio Mixer designed to be
+used with WindowMaker's dock. It can also be used with other window
+managers, and can be swallowed by a variety of tools, such as fvwm's
+button bar or gnome's panel.
 \fBwmrack\fP handles mounted volumes, opens and closes the tray, can
 display the current position in various ways and skips also data tracks.
 It gives you access to all your mixer devices, so that you may change
@@ -102,14 +120,14 @@ is from your dock file:
         wmrack
         --withdrawn
 .Sp
-Another way to call \fBwmrack\fP is to swallow it into the \fBafterstep (1)\fP
-\fBWharf (1)\fP. This is best done playcing the following line into your
+Another way to call \fBwmrack\fP is to swallow it into the \fBafterstep(1)\fP
+\fBWharf(1)\fP. This is best done placing the following line into your
 \fI.steprc\fP:
 .Sp
 	*Wharf WMRack nil Swallow "wmrack" wmrack &
 .Sp
-This method will also work for other button\-bars, such as the \fBFvwmButtons (1)\fP
-of the \fBfvwm (1)\fP window manager.
+This method will also work for other button\-bars, such as the
+\fBFvwmButtons(1)\fP of the \fBfvwm(1)\fP window manager.
 .SH GENERAL USAGE
 The \fBwmrack\fP features a simple click interface. All times the buttons will
 show a standart sign which specifies the action it will do. But there are some 
