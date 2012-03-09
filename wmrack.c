@@ -1,5 +1,5 @@
-/*
- * $Id: wmrack.c,v 1.6 2007/11/25 23:24:15 xtifr Exp $
+/**
+ * @File: wmrack.c
  *
  * WMRack - WindowMaker Sound Control Panel
  *

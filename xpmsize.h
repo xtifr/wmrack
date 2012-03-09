@@ -1,5 +1,5 @@
-/*
- * $Id: xpmsize.h,v 1.2 2003/10/02 03:46:30 xtifr Exp $
+/**
+ * @File: xpmsize.h
  *
  * defines to match xpm details -- must be edited if xpms change.
  *

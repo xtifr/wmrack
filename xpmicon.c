@@ -1,5 +1,5 @@
-/*
- * $Id: xpmicon.c,v 1.1.1.1 2001/02/12 22:26:11 xtifr Exp $
+/**
+ * @File: xpmicon.c
  *
  * part of WMRack
  *

@@ -1,5 +1,5 @@
-/*
- * $Id: library.h,v 1.2 2003/10/01 22:44:19 xtifr Exp $
+/**
+ * @File: library.h
  *
  * part of wmrack
  *

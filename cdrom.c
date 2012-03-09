@@ -1,9 +1,10 @@
-/*
- * $Id: cdrom.c,v 1.4 2007/11/25 23:54:46 xtifr Exp $
+/**
+ * @File: cdrom.c
  *
  * cdrom utility functions for WMRack
  *
  * Copyright (c) 1997 by Oliver Graf <ograf@fga.de>
+ * Solaris/BSD support copyright (c) 2003 by Knut Anders Hatien
  *
  * some hints taken from WorkBone
  */

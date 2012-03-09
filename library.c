@@ -1,5 +1,5 @@
-/*
- * $Id: library.c,v 1.1.1.1 2001/02/12 22:25:47 xtifr Exp $
+/**
+ * @File: library.c
  *
  * part of wmrack
  *
