@@ -1,5 +1,5 @@
 /*
- * $Id: mixer.c,v 1.1.1.1 2001/02/12 22:25:53 xtifr Exp $
+ * $Id: mixer.c,v 1.1.1.1.2.1 2003/09/30 01:56:55 xtifr Exp $
  *
  * mixer utility functions for WMRack
  *
@@ -23,8 +23,11 @@
 
 char *mixer_labels[]=SOUND_DEVICE_LABELS;
 char *mixer_names[]=SOUND_DEVICE_NAMES;
-char *mixer_shortnames[]={"VO", "BA", "TR", "SY", "PC", "SP", "LI", "MI",
-			  "CD", "MX", "P2", "RE", "IG", "OG", "L1", "L2", "L3"};
+char *mixer_shortnames[]={"VO", "BA", "TR", "SY", "PC", "SP",
+			  "LI", "MI", "CD", "MX", "P2", "RE",
+			  "IG", "OG", "L1", "L2", "L3",
+			  "D1", "D2", "D3", "PI", "PO",
+			  "VI", "RA", "MO"};
 int mixer_devices=SOUND_MIXER_NRDEVICES;
 
 /*

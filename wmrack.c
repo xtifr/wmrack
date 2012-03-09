@@ -1,5 +1,5 @@
 /*
- * $Id: wmrack.c,v 1.2.2.3 2003/09/30 00:50:01 xtifr Exp $
+ * $Id: wmrack.c,v 1.2.2.4 2003/09/30 01:56:55 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *
@@ -1532,8 +1532,7 @@ loadMixerRC ()
 	fprintf (stderr, "wmrack: setting default mixer_order\n");
 #endif
 	for (j = i = 0; i < mixer_devices; i++)
-	    /* next line is a bit of a hack... */
-	    if (mixer_isdevice (mixer, i) && mixer_shortnames[i])
+	    if (mixer_isdevice (mixer, i))
 		mixer_order[j++] = i;
 	mixer_max = j;
     }
