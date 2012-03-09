@@ -1,5 +1,5 @@
 /*
- * $Id: cdrom.c,v 1.2 2001/02/14 10:23:35 xtifr Exp $
+ * $Id: cdrom.c,v 1.2.2.1 2003/08/06 11:18:55 xtifr Exp $
  *
  * cdrom utility functions for WMRack
  *
@@ -295,7 +295,7 @@ int cd_reopen(CD *cd)
     {
       cd_resetpl(cd);
       cd->status=cd_getStatus(cd,0,1);
-      switch (cd_cur(cd,mode))
+      switch (cd->info.current.mode)
 	{
 	case CDM_PLAY:
 	  cd->info.play.last_action=CDA_PLAY;
@@ -311,14 +311,14 @@ int cd_reopen(CD *cd)
 	  cd->info.play.last_action=CDA_NONE;
 	  break;
 	}
-      start=cd->info.play.cur_track=cd_findtrack(cd,cd_cur(cd,track));
+      start=cd->info.play.cur_track=cd_findtrack(cd,cd->info.current.track);
 
       /* do play list optimization:
        * find the longest possible track sequence without jumps
        */
-      for (track=cd_list(cd,track)[start].num, end=start+1;
-	   end<cd_list(cd,tracks) && track==cd_list(cd,track)[end].num-1;
-	   track=cd_list(cd,track)[end].num, end++);
+      for (track=cd->info.list.track[start].num, end=start+1;
+	   end<cd->info.list.tracks && track==cd->info.list.track[end].num-1;
+	   track=cd->info.list.track[end].num, end++);
       end--;
 
       cd->info.play.cur_end=end;
@@ -414,7 +414,7 @@ int cd_getStatus(CD *cd, int reopen, int force)
 	  break;
 	  
 	case CDROM_AUDIO_PAUSED:
-	  if (cd_play(cd,last_action)!=CDA_STOP)
+	  if (cd->info.play.last_action!=CDA_STOP)
 	    {
 	      cur->mode=CDM_PAUSE;
 	      goto setpos;
@@ -436,17 +436,17 @@ int cd_getStatus(CD *cd, int reopen, int force)
       cd->status=ret;
       
       /*
-	if (ret>0 && cur->track>cd_info(cd,tracks) && cur->mode!=CDM_EJECT)
+	if (ret>0 && cur->track>cd->info.tracks && cur->mode!=CDM_EJECT)
 	{
 	cd_doStop(cd);
 	im_stop=1;
 	}
       */
       
-      switch (cd_play(cd,repeat_mode))
+      switch (cd->info.play.repeat_mode)
 	{
 	case CDR_NONE:
-	  if ((cd_play(cd,last_action)==CDA_PLAY && cur->mode!=CDM_PLAY)
+	  if ((cd->info.play.last_action==CDA_PLAY && cur->mode!=CDM_PLAY)
 	      /* this means: the user wants the cdrom to play,
 	       * but the cdrom does not play */
 	      || cur->mode==CDM_COMP || im_stop)
@@ -454,24 +454,24 @@ int cd_getStatus(CD *cd, int reopen, int force)
 #ifdef DEBUG
 	      fprintf(stderr,"cd_getStatus[DEBUG]: switching to next track\n");
 #endif
-	      cd_play(cd,cur_track)=cd_play(cd,cur_end)+1;
-	      if (cd_play(cd,cur_track)<cd_list(cd,tracks))
-		cd_doPlay(cd,cd_play(cd,cur_track));
+	      cd->info.play.cur_track=cd->info.play.cur_end+1;
+	      if (cd->info.play.cur_track<cd->info.list.tracks)
+		cd_doPlay(cd,cd->info.play.cur_track);
 	      else
 		cd_doStop(cd);
 	    }
 	  break;
 	case CDR_ALL:
-	  if ((cd_play(cd,last_action)==CDA_PLAY && cur->mode!=CDM_PLAY)
+	  if ((cd->info.play.last_action==CDA_PLAY && cur->mode!=CDM_PLAY)
 	      || cur->mode==CDM_COMP || im_stop)
 	    {
-	      cd_play(cd,cur_track)++;
-	      if (cd_play(cd,cur_track)>=cd_list(cd,tracks))
+	      cd->info.play.cur_track++;
+	      if (cd->info.play.cur_track>=cd->info.list.tracks)
 		{
 #ifdef DEBUG
 		  fprintf(stderr,"cd_getStatus[DEBUG]: repeating list\n");
 #endif
-		  if (cd_play(cd,play_type)==CDP_RANDOM)
+		  if (cd->info.play.play_type==CDP_RANDOM)
 		    cd_randomize(cd);
 		  cd_doPlay(cd,0);
 		}
@@ -480,18 +480,18 @@ int cd_getStatus(CD *cd, int reopen, int force)
 #ifdef DEBUG
 		  fprintf(stderr,"cd_getStatus[DEBUG]: switching to next track\n");
 #endif
-		  cd_doPlay(cd,cd_play(cd,cur_track));
+		  cd_doPlay(cd,cd->info.play.cur_track);
 		}
 	    }
 	  break;
 	case CDR_ONE:
-	  if ((cd_play(cd,last_action)==CDA_PLAY && cur->mode!=CDM_PLAY)
+	  if ((cd->info.play.last_action==CDA_PLAY && cur->mode!=CDM_PLAY)
 	      || cur->mode==CDM_COMP || im_stop)
 	    {
 #ifdef DEBUG
 	      fprintf(stderr,"cd_getStatus[DEBUG]: repeating track\n");
 #endif
-	      cd_doPlay(cd,cd_play(cd,cur_track));
+	      cd_doPlay(cd,cd->info.play.cur_track);
 	    }
 	  break;
 	}
@@ -521,9 +521,9 @@ int cd_doPlay(CD *cd, int start)
   /* do play list optimization:
    * find the longest possible track sequence without jumps
    */
-  for (track=cd_list(cd,track)[start].num, end=start+1;
-       end<cd_list(cd,tracks) && track==cd_list(cd,track)[end].num-1;
-       track=cd_list(cd,track)[end].num, end++);
+  for (track=cd->info.list.track[start].num, end=start+1;
+       end<cd->info.list.tracks && track==cd->info.list.track[end].num-1;
+       track=cd->info.list.track[end].num, end++);
   end--;
 
 #ifdef DEBUG
@@ -677,7 +677,7 @@ int cd_doSkip(CD *cd, int secs)
   if (cd==NULL || cd->fd<0)
     return 1;
 
-  end=cd_list(cd,track)[cd_play(cd,cur_end)].end;
+  end=cd->info.list.track[cd->info.play.cur_end].end;
   start=cd->info.current.absmsf;
   start.second+=secs;
   start=normMSF(start);
@@ -803,7 +803,7 @@ int cd_resetpl(CD *cd)
 				    cd->info.list.track[cd->info.list.tracks-1].length);
       }
 
-  cd_play(cd,play_type)=CDP_NORMAL;
+  cd->info.play.play_type=CDP_NORMAL;
 
 #ifdef DEBUG
   fprintf(stderr,"cd_resetpl[DEBUG]: cd playlist reseted\n");
@@ -900,7 +900,7 @@ int cd_randomize(CD *cd)
 	}
     }
 
-  cd_play(cd,play_type)=CDP_RANDOM;
+  cd->info.play.play_type=CDP_RANDOM;
 
 #ifdef DEBUG
   fprintf(stderr,"cd_randomize[DEBUG]: cd playlist randomized\n");

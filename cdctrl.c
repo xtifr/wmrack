@@ -1,5 +1,5 @@
 /*
- * $Id: cdctrl.c,v 1.1.1.1 2001/02/12 22:25:33 xtifr Exp $
+ * $Id: cdctrl.c,v 1.1.1.1.2.1 2003/08/06 11:18:55 xtifr Exp $
  *
  * Part of WMRack
  *
@@ -71,72 +71,72 @@ int main(int argc, char **argv)
   switch (i)
     {
     case 0:
-      printf("discid: %08lX\n",cd_info(cd,discid));
-      printf("Tracks: %d\n",cd_info(cd,tracks));
-      for (i=0; i<cd_info(cd,tracks); i++)
+      printf("discid: %08lX\n",cd->info.discid);
+      printf("Tracks: %d\n",cd->info.tracks);
+      for (i=0; i<cd->info.tracks; i++)
 	{
 	  printf("%2d[%2d]: start(%02d:%02d:%02d) end(%02d:%02d:%02d) len(%02d:%02d:%02d) %s\n",i,
-		 cd_info(cd,track)[i].num,
-		 cd_info(cd,track)[i].start.minute,
-		 cd_info(cd,track)[i].start.second,
-		 cd_info(cd,track)[i].start.frame,
-		 cd_info(cd,track)[i].end.minute,
-		 cd_info(cd,track)[i].end.second,
-		 cd_info(cd,track)[i].end.frame,
-		 cd_info(cd,track)[i].length.minute,
-		 cd_info(cd,track)[i].length.second,
-		 cd_info(cd,track)[i].length.frame,
-		 cd_info(cd,track)[i].data?"DATA":"");
+		 cd->info.track[i].num,
+		 cd->info.track[i].start.minute,
+		 cd->info.track[i].start.second,
+		 cd->info.track[i].start.frame,
+		 cd->info.track[i].end.minute,
+		 cd->info.track[i].end.second,
+		 cd->info.track[i].end.frame,
+		 cd->info.track[i].length.minute,
+		 cd->info.track[i].length.second,
+		 cd->info.track[i].length.frame,
+		 cd->info.track[i].data?"DATA":"");
 	}
     showlist:
       printf("PlayList: %d length(%02d:%02d:%02d)\n",
-	     cd_list(cd,tracks),
-	     cd_list(cd,length).minute,
-	     cd_list(cd,length).second,
-	     cd_list(cd,length).frame);
-      for (i=0; i<cd_list(cd,tracks); i++)
+	     cd->info.list.tracks,
+	     cd->info.list.length.minute,
+	     cd->info.list.length.second,
+	     cd->info.list.length.frame);
+      for (i=0; i<cd->info.list.tracks; i++)
 	{
 	  printf("%2d[%2d]: start(%02d:%02d:%02d) end(%02d:%02d:%02d) len(%02d:%02d:%02d) %s\n",i,
-		 cd_list(cd,track)[i].num,
-		 cd_list(cd,track)[i].start.minute,
-		 cd_list(cd,track)[i].start.second,
-		 cd_list(cd,track)[i].start.frame,
-		 cd_list(cd,track)[i].end.minute,
-		 cd_list(cd,track)[i].end.second,
-		 cd_list(cd,track)[i].end.frame,
-		 cd_list(cd,track)[i].length.minute,
-		 cd_list(cd,track)[i].length.second,
-		 cd_list(cd,track)[i].length.frame,
-		 cd_list(cd,track)[i].data?"DATA":"");
+		 cd->info.list.track[i].num,
+		 cd->info.list.track[i].start.minute,
+		 cd->info.list.track[i].start.second,
+		 cd->info.list.track[i].start.frame,
+		 cd->info.list.track[i].end.minute,
+		 cd->info.list.track[i].end.second,
+		 cd->info.list.track[i].end.frame,
+		 cd->info.list.track[i].length.minute,
+		 cd->info.list.track[i].length.second,
+		 cd->info.list.track[i].length.frame,
+		 cd->info.list.track[i].data?"DATA":"");
 	}
       break;
     case 1:
       printf("status is %d\n",status);
       printf("mode %d track %d\n",
-	     cd_cur(cd,mode),cd_cur(cd,track));
-      if (cd_cur(cd,track)!=-1)
+	     cd->info.current.mode,cdinfo.current.track);
+      if (cd->info.current.track!=-1)
 	printf("%d[%d]: %02d:%02d:%02d->%02d:%02d:%02d len(%02d:%02d:%02d) d%d\n",
-	       cd_cur(cd,track),
-	       cd_list(cd,track)[cd_cur(cd,track)].num,
-	       cd_list(cd,track)[cd_cur(cd,track)].start.minute,
-	       cd_list(cd,track)[cd_cur(cd,track)].start.second,
-	       cd_list(cd,track)[cd_cur(cd,track)].start.frame,
-	       cd_list(cd,track)[cd_cur(cd,track)].end.minute,
-	       cd_list(cd,track)[cd_cur(cd,track)].end.second,
-	       cd_list(cd,track)[cd_cur(cd,track)].end.frame,
-	       cd_list(cd,track)[cd_cur(cd,track)].length.minute,
-	       cd_list(cd,track)[cd_cur(cd,track)].length.second,
-	       cd_list(cd,track)[cd_cur(cd,track)].length.frame,
-	       cd_list(cd,track)[cd_cur(cd,track)].data);
+	       cd->info.current.track,
+	       cd->info.list.track[cd->info.current.track].num,
+	       cd->info.list.track[cd->info.current.track].start.minute,
+	       cd->info.list.track[cd->info.current.track].start.second,
+	       cd->info.list.track[cd->info.current.track].start.frame,
+	       cd->info.list.track[cd->info.current.track].end.minute,
+	       cd->info.list.track[cd->info.current.track].end.second,
+	       cd->info.list.track[cd->info.current.track].end.frame,
+	       cd->info.list.track[cd->info.current.track].length.minute,
+	       cd->info.list.track[cd->info.current.track].length.second,
+	       cd->info.list.track[cd->info.current.track].length.frame,
+	       cd->info.list.track[cd->info.current.track].data);
       else
 	printf("no current track\n");
       printf("rel %02d:%02d:%02d abs %02d:%02d:%02d\n",
-	     cd_cur(cd,relmsf.minute),
-	     cd_cur(cd,relmsf.second),
-	     cd_cur(cd,relmsf.frame),
-	     cd_cur(cd,absmsf.minute),
-	     cd_cur(cd,absmsf.second),
-	     cd_cur(cd,absmsf.frame));
+	     cd->info.current.relmsf.minute,
+	     cd->info.current.relmsf.second,
+	     cd->info.current.relmsf.frame,
+	     cd->info.current.absmsf.minute,
+	     cd->info.current.absmsf.second,
+	     cd->info.current.absmsf.frame);
       break;
     case 2:
       if (argc>2)

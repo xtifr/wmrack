@@ -1,5 +1,5 @@
 /*
- * $Id: wmrack.c,v 1.2.2.1 2001/06/17 04:19:18 xtifr Exp $
+ * $Id: wmrack.c,v 1.2.2.2 2003/08/06 11:18:55 xtifr Exp $
  *
  * WMRack - WindowMaker Sound Control Panel
  *
@@ -107,7 +107,7 @@ main (int argc, char *argv[])
     cd = cd_open (CdDevice, noprobe);
     if (cd_getStatus (cd, 0, 1) > 0)
     {
-	if (cd_list (cd, tracks) == 0)
+	if (cd->info.list.tracks == 0)
 	{
 	    rack_popup ("DATA");
 	    cd_suspend (cd);
@@ -503,44 +503,44 @@ mainLoop ()
 			switch (Event.xbutton.button)
 			{
 			case 1:
-			    if (cd_cur (cd, mode) == CDM_PLAY)
+			    if (cd->info.current.mode == CDM_PLAY)
 				displaymode ^= 1;
 			    break;
 			case 2:
-			    if (cd_cur (cd, mode) == CDM_PLAY)
+			    if (cd->info.current.mode == CDM_PLAY)
 				displaymode ^= 2;
 			    break;
 			case 3:
-			    switch (cd_play (cd, repeat_mode))
+			    switch (cd->info.play.repeat_mode)
 			    {
 			    case CDR_NONE:
-				cd_play (cd, repeat_mode) = CDR_ALL;
+				cd->info.play.repeat_mode = CDR_ALL;
 				break;
 			    case CDR_ALL:
-				cd_play (cd, repeat_mode) = CDR_ONE;
+				cd->info.play.repeat_mode = CDR_ONE;
 				break;
 			    default:
-				cd_play (cd, repeat_mode) = CDR_NONE;
+				cd->info.play.repeat_mode = CDR_NONE;
 				break;
 			    }
-			    if (cd_play (cd, repeat_mode) == 2
-				&& cd_cur (cd, mode) == CDM_PLAY)
-				start_track = cd_cur (cd, track);
+			    if (cd->info.play.repeat_mode == 2
+				&& cd->info.current.mode == CDM_PLAY)
+				start_track = cd->info.current.track;
 			    break;
 			}
 			force_disp = 1;
 		    }
 		    else if (IN_CD_PLAY_BUTTON (Event))
 		    {
-			if (cd_cur (cd, mode) == CDM_PLAY
-			    || cd_cur (cd, mode) == CDM_PAUSE)
+			if (cd->info.current.mode == CDM_PLAY
+			    || cd->info.current.mode == CDM_PAUSE)
 			    cd_doPause (cd);
-			else if (cd_cur (cd, mode) == CDM_EJECT)
+			else if (cd->info.current.mode == CDM_EJECT)
 			{
 			    if (cd_getStatus (cd, 1, 0))
 			    {
 				start_track = 0;
-				if (cd_list (cd, tracks) == 0)
+				if (cd->info.list.tracks == 0)
 				{
 				    rack_popup ("DATA");
 				    cd_suspend (cd);
@@ -567,13 +567,13 @@ mainLoop ()
 		    }
 		    else if (IN_CD_STOP_BUTTON (Event))
 		    {
-			if (cd_cur (cd, mode) == CDM_PLAY
-			    || cd_cur (cd, mode) == CDM_PAUSE)
+			if (cd->info.current.mode == CDM_PLAY
+			    || cd->info.current.mode == CDM_PAUSE)
 			{
 			    cd_doStop (cd);
-			    start_track = cd_play (cd, cur_track);
+			    start_track = cd->info.play.cur_track;
 			}
-			else if (cd_cur (cd, mode) == CDM_EJECT)
+			else if (cd->info.current.mode == CDM_EJECT)
 			{
 			    if (Event.xbutton.button == 3)
 				cd_doEject (cd);
@@ -582,7 +582,7 @@ mainLoop ()
 				if (cd_getStatus (cd, 1, 1))
 				{
 				    start_track = 0;
-				    if (cd_list (cd, tracks) == 0)
+				    if (cd->info.list.tracks == 0)
 				    {
 					rack_popup ("DATA");
 					cd_suspend (cd);
@@ -611,7 +611,7 @@ mainLoop ()
 		    }
 		    else if (IN_CD_TRACK_WIDGET(Event))
 		    {
-			if (cd_cur (cd, mode) != CDM_STOP)
+			if (cd->info.current.mode != CDM_STOP)
 			    break;
 			if (Event.xbutton.state & ControlMask)
 			{
@@ -864,36 +864,37 @@ mainLoop ()
 		    if (IN_CD_PREV_BUTTON (Event)
 			&& Event.xbutton.time - press_time < 200)
 		    {
-			if (cd_cur (cd, mode) == CDM_PLAY
-			    || cd_cur (cd, mode) == CDM_PAUSE)
+			if (cd->info.current.mode == CDM_PLAY
+			    || cd->info.current.mode == CDM_PAUSE)
 			{
-			    if (cd_cur (cd, relmsf.minute)
-				|| cd_cur (cd, relmsf.second) > 2)
-				cd_doPlay (cd, cd_cur (cd, track));
+			    if (cd->info.current.relmsf.minute
+				|| cd->info.current.relmsf.second > 2)
+				cd_doPlay (cd, cd->info.current.track);
 			    else
-				cd_doPlay (cd, cd_cur (cd, track) - 1);
+				cd_doPlay (cd, cd->info.current.track - 1);
 			}
-			else if (cd_cur (cd, mode) == CDM_STOP)
+			else if (cd->info.current.mode == CDM_STOP)
 			{
 			    if (start_track > 0)
 				start_track--;
 			    else
-				start_track = cd_list (cd, tracks) - 1;
+				start_track = cd->info.list.tracks - 1;
 			}
 		    }
 		    else if (IN_CD_NEXT_BUTTON (Event)
 			     && Event.xbutton.time - press_time < 200)
 		    {
-			if (cd_cur (cd, mode) == CDM_PLAY
-			    || cd_cur (cd, mode) == CDM_PAUSE)
+			if (cd->info.current.mode == CDM_PLAY
+			    || cd->info.current.mode == CDM_PAUSE)
 			{
-			    if (cd_cur (cd, track) < cd_list (cd, tracks) - 1)
-				cd_doPlay (cd, cd_cur (cd, track) + 1);
+			    if (cd->info.current.track < 
+				cd->info.list.tracks - 1)
+				cd_doPlay (cd, cd->info.current.track + 1);
 
 			}
-			else if (cd_cur (cd, mode) == CDM_STOP)
+			else if (cd->info.current.mode == CDM_STOP)
 			{
-			    if (start_track < cd_list (cd, tracks) - 1)
+			    if (start_track < cd->info.list.tracks - 1)
 				start_track++;
 			    else
 				start_track = 0;
@@ -919,7 +920,7 @@ mainLoop ()
 	/* now check for a pressed button */
 	if (press_time != -1)
 	{
-	    if (cd_cur (cd, mode) == CDM_PLAY)
+	    if (cd->info.current.mode == CDM_PLAY)
 	    {
 		when = getTime ();
 		if (when - press_time > 500)
@@ -1009,9 +1010,10 @@ paint_cd_led (int flash, int track[], int cdtime[])
     XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
 	       8 * track[1], 0, 8, 11, 24, 35);
 
-    if (flash || cd_cur (cd, mode) != CDM_PAUSE)
+    if (flash || cd->info.current.mode != CDM_PAUSE)
     {
-	if (cd_cur (cd, mode) == CDM_PLAY || cd_cur (cd, mode) == CDM_PAUSE)
+	if (cd->info.current.mode == CDM_PLAY || 
+	    cd->info.current.mode == CDM_PAUSE)
 	{
 	    XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
 		       ((displaymode & 2) ? 94 : 98), 0, 4, 5, 3, 2);
@@ -1065,16 +1067,16 @@ paint_cd_led (int flash, int track[], int cdtime[])
 	}
 
 	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
-		   (cd_play (cd, repeat_mode) != CDR_NONE ? 102 : 106), 0, 4,
+		   (cd->info.play.repeat_mode != CDR_NONE ? 102 : 106), 0, 4,
 		   5, 42, 2);
 	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
-		   (cd_play (cd, repeat_mode) != CDR_NONE ? 102 : 106), 0, 4,
+		   (cd->info.play.repeat_mode != CDR_NONE ? 102 : 106), 0, 4,
 		   5, 42, 2);
 	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Win, WinGC,
-		   (cd_play (cd, repeat_mode) == CDR_ONE ? 102 : 106), 6, 4,
+		   (cd->info.play.repeat_mode == CDR_ONE ? 102 : 106), 6, 4,
 		   5, 42, 8);
 	XCopyArea (Disp, ledXpm (RACK_LED_PLAYER, pixmap), Iconwin, WinGC,
-		   (cd_play (cd, repeat_mode) == CDR_ONE ? 102 : 106), 6, 4,
+		   (cd->info.play.repeat_mode == CDR_ONE ? 102 : 106), 6, 4,
 		   5, 42, 8);
     }
     else
@@ -1246,11 +1248,11 @@ redrawDisplay (int force_win, int force_disp)
 	switch (WMRack_Mode)
 	{
 	case MODE_CDPLAYER:
-	    if (cd_cur (cd, mode) != CDM_PAUSE
-		&& last_cdmode == cd_cur (cd, mode)
+	    if (cd->info.current.mode != CDM_PAUSE
+		&& last_cdmode == cd->info.current.mode
 		&& (st < 1
-		    || (last_time.minute == cd_cur (cd, relmsf.minute)
-			&& last_time.second == cd_cur (cd, relmsf.second)
+		    || (last_time.minute == cd->info.current.relmsf.minute
+			&& last_time.second == cd->info.current.relmsf.second
 			&& last_track == start_track)))
 		return;
 	    break;
@@ -1265,22 +1267,22 @@ redrawDisplay (int force_win, int force_disp)
     }
 
 #ifdef DEBUG
-    if (last_cdmode != cd_cur (cd, mode))
+    if (last_cdmode != cd->info.current.mode)
     {
-	fprintf (stderr, "wmrack: cur_cdmode %d\n", cd_cur (cd, mode));
+	fprintf (stderr, "wmrack: cur_cdmode %d\n", cd->info.current.mode);
     }
 #endif
 
-    if (cd_cur (cd, mode) == CDM_STOP
-	&& cd_play (cd, last_action) == CDA_PLAY)
+    if (cd->info.current.mode == CDM_STOP
+	&& cd->info.play.last_action == CDA_PLAY)
 	start_track = 0;
 
     lastMixer = curMixer;
 
-    last_cdmode = cd_cur (cd, mode);
+    last_cdmode = cd->info.current.mode;
     if (st > 0)
     {
-	last_time = cd_cur (cd, relmsf);
+	last_time = cd->info.current.relmsf;
 	last_track = start_track;
     }
     else
@@ -1289,7 +1291,7 @@ redrawDisplay (int force_win, int force_disp)
 	last_track = -1;
     }
 
-    if (cd_cur (cd, mode) == CDM_PAUSE)
+    if (cd->info.current.mode == CDM_PAUSE)
     {
 	time_t flash_time = time (NULL);
 
@@ -1328,30 +1330,29 @@ redrawDisplay (int force_win, int force_disp)
 	newRack = RACK_MIXER;
     else
     {
-	switch (cd_cur (cd, mode))
+	switch (cd->info.current.mode)
 	{
 	case CDM_PAUSE:
 	    newRack = RACK_PAUSE;
 	case CDM_PLAY:
-	    track[0] = cd_list (cd, track)[cd_cur (cd, track)].num / 10;
-	    track[1] = cd_list (cd, track)[cd_cur (cd, track)].num % 10;
+	    track[0] = cd->info.list.track[cd->info.current.track].num / 10;
+	    track[1] = cd->info.list.track[cd->info.current.track].num % 10;
 	    switch (displaymode)
 	    {
 	    case 0:
-		pos = cd_cur (cd, relmsf);
+		pos = cd->info.current.relmsf;
 		break;
 	    case 1:
-		pos = subMSF (cd_list (cd, track)[cd_cur (cd, track)].length,
-			      cd_cur (cd, relmsf));
+		pos = subMSF (cd->info.list.track[cd->info.current.track].length,
+			      cd->info.current.relmsf);
 		break;
 	    case 2:
-		pos = subMSF (cd_cur (cd, absmsf),
-			      cd_info (cd, track)[0].start);
+		pos = subMSF (cd->info.current.absmsf, 
+			      cd->info.track[0].start);
 		break;
 	    case 3:
-		pos = subMSF (cd_info (cd, track)[cd_info (cd, tracks)
-						 - 1].end,
-			      cd_cur (cd, absmsf));
+		pos = subMSF (cd->info.track[cd->info.tracks - 1].end,
+			      cd->info.current.absmsf);
 		break;
 	    }
 	    cdtime[0] = pos.minute / 10;
@@ -1363,20 +1364,20 @@ redrawDisplay (int force_win, int force_disp)
 	    newRack = RACK_STOP;
 	    if (newdisc)
 	    {
-		track[0] = cd_list (cd, tracks) / 10;
-		track[1] = cd_list (cd, tracks) % 10;
+		track[0] = cd->info.list.tracks / 10;
+		track[1] = cd->info.list.tracks % 10;
 	    }
 	    else
 	    {
-		track[0] = cd_list (cd, track)[start_track].num / 10;
-		track[1] = cd_list (cd, track)[start_track].num % 10;
+		track[0] = cd->info.list.track[start_track].num / 10;
+		track[1] = cd->info.list.track[start_track].num % 10;
 	    }
 	    if (playlist == NULL)
 	    {
-		cdtime[0] = cd_list (cd, length).minute / 10;
-		cdtime[1] = cd_list (cd, length).minute % 10;
-		cdtime[2] = cd_list (cd, length).second / 10;
-		cdtime[3] = cd_list (cd, length).second % 10;
+		cdtime[0] = cd->info.list.length.minute / 10;
+		cdtime[1] = cd->info.list.length.minute % 10;
+		cdtime[2] = cd->info.list.length.second / 10;
+		cdtime[3] = cd->info.list.length.second % 10;
 	    }
 	    else
 	    {
