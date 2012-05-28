@@ -62,8 +62,8 @@ BUGS & CONTACT:
 ---------------
 The author, Oliver Graf, is no longer supporting or maintaining WMRack,
 therefore, all bug reports or suggestions should be sent to the current
-maintainer, Chris Waters <xtifr@users.sourceforge.net> or submitted at
-the new web page: http://wmrack.sourceforge.net 
+maintainer, Chris Waters <xtifr@users.sourceforge.net> or submitted through
+github (project: xtifr/wmrack).
 
 Include a description how the bug can be reproduced plus the vendor
 and model of your cdrom and/or soundcard. Also include a debug log
@@ -80,4 +80,3 @@ HISTORY:
 Basically this thing borrowed much from WorkBone, ascd and asmixer. But in
 the progress of work, almost any part that was stolen, has been rewritten,
 restructured, and overworked.
-
