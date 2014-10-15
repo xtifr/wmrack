@@ -93,7 +93,7 @@ else
   if test -d "$prefix/GNUstep" -o -d "$ac_default_prefix/GNUstep"; then
     libdir=[\${prefix}/GNUstep/Library]
     echo " $libdir"
-    AC_DEFINE(HAVE_GNUSTEP)
+    AC_DEFINE(HAVE_GNUSTEP, 1, [Define if you want GNUstep compliant paths.])
   else
     echo " NOT FOUND -- DISABLED"
   fi

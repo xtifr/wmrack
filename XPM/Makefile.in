@@ -8,6 +8,7 @@ exec_prefix = @exec_prefix@
 BINDIR = @bindir@
 MANDIR = @mandir@
 LIBDIR = @libdir@/WMRack
+datarootdir = @datarootdir@
 
 standart.style: grey.style
 	$(LN) grey.style standart.style

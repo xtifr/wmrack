@@ -25,11 +25,14 @@
 #ifdef linux
 #  include <sys/vfs.h>
 #  include <linux/cdrom.h>
+#elif defined(__GNU__)
+#  include <sys/cdrom.h>
+#  include <sys/statfs.h>
 #elif defined(__sun) && defined(__SVR4) /* Solaris */
 #  include <sys/cdio.h>
 #  include <sys/statvfs.h>
 #  define statfs statvfs
-#elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #  include <sys/mount.h>
 #  include <sys/cdio.h>
 
