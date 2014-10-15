@@ -25,6 +25,9 @@
 #ifdef linux
 #  include <sys/vfs.h>
 #  include <linux/cdrom.h>
+#elif defined(__GNU__)
+#  include <sys/cdrom.h>
+#  include <sys/statfs.h>
 #elif defined(__sun) && defined(__SVR4) /* Solaris */
 #  include <sys/cdio.h>
 #  include <sys/statvfs.h>
