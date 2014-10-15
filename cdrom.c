@@ -32,7 +32,7 @@
 #  include <sys/cdio.h>
 #  include <sys/statvfs.h>
 #  define statfs statvfs
-#elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #  include <sys/mount.h>
 #  include <sys/cdio.h>
 
