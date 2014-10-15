@@ -79,7 +79,7 @@ int parseXpm(Display *disp, Drawable draw, char *buffer)
   if (strncmp(buffer,"/* XPM */\nstatic char *",23)!=0)
     {
       fprintf(stderr,"parseXpm: invalid start of xpm\n");
-      fprintf(stderr,buffer);
+      fprintf(stderr, "%s", buffer);
       return 1;
     }
   /* skip spaces */
